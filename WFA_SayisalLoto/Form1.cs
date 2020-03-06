@@ -13,7 +13,7 @@ namespace WFA_SayisalLoto
         }
 
         Random rnd = new Random();
-   
+
         int toplam = 0;
         int sayi = 0;
         List<int> loto = new List<int>();
@@ -21,68 +21,47 @@ namespace WFA_SayisalLoto
         int textboxNumber = 0;
         private void metroTile1_Click(object sender, System.EventArgs e)
         {
-           
             timer1.Start();
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             Control txt = controls[textboxNumber];
-
-            if (textboxNumber<6)
+        sayi:
+            sayi = rnd.Next(1, 49);
+            if (textboxNumber < 6)
             {
-                //sayi = rnd.Next(1, 49);
-                //txt.Text = sayi.ToString();
-                //toplam++;
-                //if (!loto.Contains(sayi))
-                //{
-                //    loto.Add(sayi);
-                //}
-                //else
-                //{
-                //    toplam--;
-                //}
-                //if (toplam == 10)
-                //{
-                //    timer1.Stop();
-                //    toplam = 0;
-                //}
-
-                if (toplam < 11)
+                if (toplam < 10)
                 {
-                    sayi = rnd.Next(1, 7);
                     txt.Text = sayi.ToString();
-                    toplam ++;
+                    toplam++;
                 }
-                else if (toplam == 11)
+                else if (toplam == 10 && !loto.Contains(sayi))
                 {
-                    if (!loto.Contains(sayi))
+                    if (textboxNumber < 6)
                     {
                         loto.Add(sayi);
                         txt.Text = sayi.ToString();
+                        toplam = 0;
+                        textboxNumber++;
                     }
-                    else
-                    {
-                        toplam--;
-                        
-                    }
-                    textboxNumber++;
-                    toplam = 0;
                     if (textboxNumber == 6)
                     {
                         loto.Sort();
-                        for (int i = 0; i < loto.Count-1; i++)
+                        for (int i = 0; i < loto.Count; i++)
                         {
                             controls[i].Text = loto[i].ToString();
                         }
                         timer1.Stop();
-
                     }
                 }
+                else
+                {
+                    toplam--;
+                    goto sayi;
+                }
             }
-
-            
-
         }
         private void metroButton1_Click(object sender, EventArgs e)
         {
@@ -95,6 +74,23 @@ namespace WFA_SayisalLoto
            {
                 txt1, txt2, txt3, txt4, txt5, txt6
            };
+        }
+
+        private void metroTile2_Click(object sender, EventArgs e)
+        {
+            loto.Clear();
+            toplam = 0;
+            textboxNumber = 0;
+            for (int i = 0; i < controls.Length; i++)
+            {
+                controls[i].Text = "0";
+
+            }
+            timer1.Stop();
+
+            
+
+
         }
     }
 }
